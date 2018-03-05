@@ -23,7 +23,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <link rel="import" href="../bower_components/paper-datatable-api/paper-datatable-api-column.html">
 <link rel="import" href="../bower_components/paper-datatable-api/paper-datatable-api.html">
 <link rel="import" href="../bower_components/polymerfire/firebase-app.html">
+<link rel="import" href="../bower_components/polymerfire/firebase-app.html">
 <link rel="import" href="../bower_components/polymerfire/firebase-query.html">
+<link rel="import" href="../bower_components/star-rating/star-rating.html">
 <link rel="import" href="my-icons.html">
 
 <link rel="lazy-import" href="my-view404.html">
@@ -91,7 +93,12 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     </firebase-query>
 
     <paper-datatable-api data="[[data]]">
-      <paper-datatable-api-column draggable-column header="Name" property="name">
+      <paper-datatable-api-column header="Rating" property="rating">
+        <template>
+          <star-rating rate="{{value}}"></star-rating>
+        </template>
+      </paper-datatable-api-column>
+      <paper-datatable-api-column header="Name" property="name">
         <template>
           <span>{{value}}</span>
         </template>
@@ -101,9 +108,18 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           <span>{{value}}</span>
         </template>
       </paper-datatable-api-column>
+      <paper-datatable-api-column header="Region" property="region">
+        <template>
+          <span>{{value}}</span>
+        </template>
+      </paper-datatable-api-column>
+      <paper-datatable-api-column header="Notes" property="notes">
+        <template>
+          <span>{{value}}</span>
+        </template>
+      </paper-datatable-api-column>
     </paper-datatable-api>
-
- </template>
+   </template>
 
   <script>
     // Gesture events like tap and track generated from touch will not be

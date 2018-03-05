@@ -16,7 +16,8 @@
     "polymer": "Polymer/polymer#^2.0.0",
     "webcomponentsjs": "webcomponents/webcomponentsjs#^1.0.0",
     "paper-datatable-api": "^2.0.13",
-    "polymerfire": "firebase/polymerfire#^2.2.1"
+    "polymerfire": "firebase/polymerfire#^2.2.1",
+    "star-rating": "acordeonl/star-rating#^2.0.7"
   },
   "resolutions": {
     "polymer": "^2.0.0"
