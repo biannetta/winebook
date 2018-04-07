@@ -1,0 +1,84 @@
+<!--
+@license
+Copyright (c) 2016 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+-->
+
+<link rel="import" href="../bower_components/polymer/polymer-element.html">
+<link rel="import" href="../bower_components/paper-icon-button/paper-icon-button.html">
+<link rel="import" href="../bower_components/paper-datatable-api/paper-datatable-api-column.html">
+<link rel="import" href="../bower_components/paper-datatable-api/paper-datatable-api.html">
+<link rel="import" href="../bower_components/polymerfire/firebase-app.html">
+<link rel="import" href="../bower_components/polymerfire/firebase-app.html">
+<link rel="import" href="../bower_components/polymerfire/firebase-query.html">
+<link rel="import" href="../bower_components/l2t-paper-rating/l2t-paper-rating.html">
+
+<dom-module id="wine-list">
+    <template>
+        <style></style>
+
+        <firebase-app
+            auth-domain="wineapp-1f5fc.firebaseapp.com"
+            database-url="https://wineapp-1f5fc.firebaseio.com"
+            api-key="AIzaSyDy-nFZheTQ7JxfyvXpJFb_Z4XtLIsl5Z0"
+            storage-bucket="wineapp-1f5fc.appspot.com"
+            messaging-sender-id="152006776066"
+            project-id="wineapp-1f5fc">
+        </firebase-app>
+ 
+        <firebase-query
+            id="wines"
+            path="/wines"
+            data={{data}}>
+        </firebase-query>
+
+        <paper-datatable-api data="[[data]]">
+            <paper-datatable-api-column header="Rating" property="rating">
+                <template>
+                <l2t-paper-rating rating="{{value}}" readonly></l2t-paper-rating>
+                </template>
+            </paper-datatable-api-column>
+            <paper-datatable-api-column header="Name" property="name">
+                <template>
+                <span>{{value}}</span>
+                </template>
+            </paper-datatable-api-column>
+            <paper-datatable-api-column header="Type" property="type">
+                <template>
+                <span>{{value}}</span>
+                </template>
+            </paper-datatable-api-column>
+            <paper-datatable-api-column header="Region" property="region">
+                <template>
+                <span>{{value}}</span>
+                </template>
+            </paper-datatable-api-column>
+            <paper-datatable-api-column header="Notes" property="notes">
+                <template>
+                <span>{{value}}</span>
+                </template>
+            </paper-datatable-api-column>
+        </paper-datatable-api>
+    </template>
+
+  <script>
+    Polymer.setPassiveTouchGestures(true);
+
+    class WineList extends Polymer.Element {
+      static get is() { return 'wine-list'; }
+
+      static get properties() {
+        return {
+          data: Object,
+          rootPath: String,
+        };
+      }
+    }
+
+    window.customElements.define(WineList.is, WineList);
+  </script>
+</dom-module>

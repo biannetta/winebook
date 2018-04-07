@@ -1,0 +1,21 @@
+<link rel="import" href="../bower_components/polymer/polymer-element.html">
+<link rel="import" href="../bower_components/paper-icon-button/paper-icon-button.html">
+<link rel="import" href="../bower_components/paper-fab/paper-fab.html">
+
+<dom-module id="wine-entry">
+    <template>
+        <style></style>
+        <h1>Hello Modal</h1>
+    </template>
+    <script>
+        class WineEntry extends Polymer.Element {
+            static get is() { return 'wine-entry'; }
+
+            static get properties() {
+                return {};
+            }
+        }
+
+        window.customElements.define(WineEntry.is, WineEntry);
+    </script>
+</dom-module>
