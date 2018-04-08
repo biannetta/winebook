@@ -1,18 +1,40 @@
 <link rel="import" href="../bower_components/polymer/polymer-element.html">
-<link rel="import" href="../bower_components/paper-icon-button/paper-icon-button.html">
+<link rel="import" href="../bower_components/paper-input/paper-input.html">
+<link rel="import" href="../bower_components/paper-input/paper-textarea.html">
 <link rel="import" href="../bower_components/paper-fab/paper-fab.html">
+<link rel="import" href="../bower_components/l2t-paper-rating/l2t-paper-rating.html">
+<link rel="import" href="../bower_components/polymerfire/firebase-app.html">
+<link rel="import" href="../bower_components/polymerfire/firebase-document.html">
 
 <dom-module id="wine-entry">
     <template>
-        <style></style>
-        <h1>Hello Modal</h1>
+        <style>
+            .data-form {
+                padding: 10px;
+            }
+        </style>
+        
+        <div class="data-form">
+            <paper-input label="Name"></paper-input>    
+            <paper-input label="Type"></paper-input>    
+            <paper-input label="Region"></paper-input>
+            <paper-textarea label="Notes"></paper-textarea>
+            <l2t-paper-rating></l2t-paper-rating>
+            <paper-input label="LCBO No."></paper-input>    
+        </div>
     </template>
     <script>
         class WineEntry extends Polymer.Element {
             static get is() { return 'wine-entry'; }
 
             static get properties() {
-                return {};
+                return {
+                    name: String,
+                    type: String,
+                    rating: Number,
+                    region: String,
+                    notes: String,
+                };
             }
         }
 

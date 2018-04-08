@@ -20,6 +20,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <link rel="import" href="../bower_components/paper-icon-button/paper-icon-button.html">
 <link rel="import" href="../bower_components/iron-icons/iron-icons.html">
 <link rel="import" href="../bower_components/paper-dialog/paper-dialog.html">
+<link rel="import" href="../bower_components/paper-toolbar/paper-toolbar.html">
+<link rel="import" href="../bower_components/paper-button/paper-button.html">
 
 <link rel="import" href="wine-list.html">
 <link rel="import" href="wine-entry.html">
@@ -50,19 +52,34 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         font-size: 24px;
         text-shadow:#7F7B75 0 1px 5px;
       }
+
+      #entry {
+        width: 500px;
+      }
+
+      paper-toolbar {
+        margin-top: 0;
+        --paper-toolbar-background: var(--app-primary-color);
+      }
     </style>
 
     <app-header slot="header" condenses reveals effects="waterfall">
       <app-toolbar>
         <div main-title>Winebook</div>
-        <paper-icon-button icon="add" onclick="entry.open()"></paper-icon-button>
+        <paper-icon-button icon="add" on-tap="openDialog"></paper-icon-button>
       </app-toolbar>
     </app-header>
 
     <wine-list></wine-list>
 
-    <paper-dialog id="entry">
+    <paper-dialog id="entry" title="Enter New Wine" modal>
+      <paper-toolbar>
+        <paper-icon-button slot="top" icon="close" dialog-dismiss></paper-icon-button>
+      </paper-toolbar>
       <wine-entry></wine-entry>
+      <div class="buttons">
+        <paper-button>Save</paper-button>
+      </div>
     </paper-dialog>
   
   </template>
