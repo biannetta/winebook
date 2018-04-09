@@ -1,10 +1,8 @@
 <link rel="import" href="../bower_components/polymer/polymer-element.html">
 <link rel="import" href="../bower_components/paper-input/paper-input.html">
 <link rel="import" href="../bower_components/paper-input/paper-textarea.html">
-<link rel="import" href="../bower_components/paper-fab/paper-fab.html">
 <link rel="import" href="../bower_components/paper-button/paper-button.html">
 <link rel="import" href="../bower_components/l2t-paper-rating/l2t-paper-rating.html">
-<link rel="import" href="../bower_components/polymerfire/firebase-query.html">
 
 <dom-module id="wine-entry">
     <template>
@@ -14,12 +12,6 @@
             }
         </style>
         
-        <firebase-query
-            id="wines"
-            path="/wines"
-            data={{data}}>
-        </firebase-query>
-
         <div class="data-form">
             <paper-input id="name" label="Name"></paper-input>    
             <paper-input id="type" label="Type"></paper-input>    
@@ -38,7 +30,7 @@
 
             static get properties() {
                 return {
-                    data: Object
+                    wine: Object
                 };
             }
 

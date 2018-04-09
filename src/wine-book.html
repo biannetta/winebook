@@ -23,6 +23,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <link rel="import" href="../bower_components/paper-toolbar/paper-toolbar.html">
 <link rel="import" href="../bower_components/paper-button/paper-button.html">
 <link rel="import" href="../bower_components/polymerfire/firebase-app.html">
+<link rel="import" href="../bower_components/polymerfire/firebase-query.html">
 
 <link rel="import" href="wine-list.html">
 <link rel="import" href="wine-entry.html">
@@ -73,20 +74,29 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         project-id="wineapp-1f5fc">
     </firebase-app>
 
-    <app-header slot="header" condenses reveals effects="waterfall">
+    <firebase-query
+        id="wines"
+        path="/wines"
+        data={{data}}>
+    </firebase-query>
+
+    <app-header slot="header" condenses fixed>
       <app-toolbar>
         <div main-title>Winebook</div>
         <paper-icon-button icon="add" on-tap="openDialog"></paper-icon-button>
       </app-toolbar>
     </app-header>
 
-    <wine-list></wine-list>
+    <wine-list wines="[[data]]"></wine-list>
 
-    <paper-dialog id="entry" title="Enter New Wine" modal>
+    <paper-dialog id="entry" modal>
       <paper-toolbar>
         <paper-icon-button slot="top" icon="close" dialog-dismiss></paper-icon-button>
       </paper-toolbar>
-      <wine-entry></wine-entry>
+      <wine-entry wine="{{data}}"></wine-entry>
+      <div class="buttons">
+        <paper-button on-tap="saveData" raised>Save</paper-button>
+      </div>
    </paper-dialog>
   
   </template>
@@ -101,7 +111,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
       static get properties() {
         return {
-          rootPath: String,
+          data: Object
         };
       }
 

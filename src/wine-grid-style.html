@@ -1,0 +1,39 @@
+<link rel="import" href="../bower_components/polymer/polymer-element.html">
+<link rel="import" href="../bower_components/vaadin-themable-mixin/vaadin-themable-mixin.html">
+
+<dom-module id="wine-grid-style" theme-for="vaadin-grid">
+    <template>
+        <style>
+            :host {
+                --app-primary-color: #993D60;
+                --app-secondary-color: #7C334F;
+            }
+            [part~="header-cell"] {
+                background-color: var(--app-secondary-color);
+                color: aliceblue;
+            }
+            [part~="cell"] {
+                padding: 5px;
+            }
+            [part~="row"] {
+                border-bottom: 1px solid lavender;
+            }
+            [part~="row"]:nth-child(odd) {
+                background-color: #fff;
+            }
+            [part~="row"]:nth-child(even) {
+                background-color: #fff7fa;
+            }
+            [part~="row"]:hover {
+                background-color: #edd0db;
+            }
+        </style>
+    </template>
+    <script>
+        class WineGridStyle extends Polymer.Element {
+            static get is() { return 'wine-grid-style'; }
+        }
+        
+        window.customElements.define(WineGridStyle.is, WineGridStyle);
+    </script>
+</dom-module>
