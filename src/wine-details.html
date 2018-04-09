@@ -1,0 +1,27 @@
+<link rel="import" href="../bower_components/polymer/polymer-element.html">
+<link rel="import" href="../bower_components/l2t-paper-rating/l2t-paper-rating.html">
+
+<dom-module id="wine-details">
+    <template>
+        <style></style>
+
+        <div class="header">Test Wine</div>
+        <div class="details">
+            <span>Type</span>
+            <span>Region</span>
+        </div>
+        <l2t-paper-rating rating="5" readonly></l2t-paper-rating>
+        <span>Notes</span>
+    </template>
+    <script>
+        class WineDetails extends Polymer.Element {
+            static get is() { return 'wine-details'; }
+
+            static get properties() {
+                return {};
+            }
+        }
+
+        window.customElements.define(WineDetails.is,WineDetails);
+    </script>
+</dom-module>

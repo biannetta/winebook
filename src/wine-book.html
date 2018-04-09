@@ -18,16 +18,16 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <link rel="import" href="../bower_components/app-route/app-location.html">
 <link rel="import" href="../bower_components/app-route/app-route.html">
 <link rel="import" href="../bower_components/paper-icon-button/paper-icon-button.html">
-<link rel="import" href="../bower_components/iron-icons/iron-icons.html">
 <link rel="import" href="../bower_components/paper-dialog/paper-dialog.html">
 <link rel="import" href="../bower_components/paper-toolbar/paper-toolbar.html">
 <link rel="import" href="../bower_components/paper-button/paper-button.html">
 <link rel="import" href="../bower_components/polymerfire/firebase-app.html">
 <link rel="import" href="../bower_components/polymerfire/firebase-query.html">
+<link rel="import" href="../bower_components/iron-icons/iron-icons.html">
 
 <link rel="import" href="wine-list.html">
 <link rel="import" href="wine-entry.html">
-<link rel="import" href="my-icons.html">
+<link rel="import" href="wine-details.html">
 
 <dom-module id="wine-book">
   <template>
@@ -83,7 +83,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     <app-header slot="header" condenses fixed>
       <app-toolbar>
         <div main-title>Winebook</div>
-        <paper-icon-button icon="add" on-tap="openDialog"></paper-icon-button>
+        <paper-icon-button icon="add-circle" on-tap="openDialog"></paper-icon-button>
       </app-toolbar>
     </app-header>
 
@@ -98,8 +98,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         <paper-button on-tap="saveData" raised>Save</paper-button>
       </div>
    </paper-dialog>
-  
-  </template>
+ </template>
 
   <script>
     // Gesture events like tap and track generated from touch will not be
