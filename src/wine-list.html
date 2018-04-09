@@ -12,57 +12,50 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <link rel="import" href="../bower_components/paper-icon-button/paper-icon-button.html">
 <link rel="import" href="../bower_components/paper-datatable-api/paper-datatable-api-column.html">
 <link rel="import" href="../bower_components/paper-datatable-api/paper-datatable-api.html">
-<link rel="import" href="../bower_components/polymerfire/firebase-app.html">
 <link rel="import" href="../bower_components/polymerfire/firebase-query.html">
+<link rel="import" href="../bower_components/vaadin-grid/vaadin-grid.html">
+<link rel="import" href="../bower_components/vaadin-grid/vaadin-grid-sorter.html">
 <link rel="import" href="../bower_components/l2t-paper-rating/l2t-paper-rating.html">
 
 <dom-module id="wine-list">
     <template>
-        <style></style>
+        <style>
+            vaadin-grid {
+                border: none;
+            }
+        </style>
 
-        <firebase-app
-            auth-domain="wineapp-1f5fc.firebaseapp.com"
-            database-url="https://wineapp-1f5fc.firebaseio.com"
-            api-key="AIzaSyDy-nFZheTQ7JxfyvXpJFb_Z4XtLIsl5Z0"
-            storage-bucket="wineapp-1f5fc.appspot.com"
-            messaging-sender-id="152006776066"
-            project-id="wineapp-1f5fc">
-        </firebase-app>
- 
         <firebase-query
             id="wines"
             path="/wines"
             data={{data}}>
         </firebase-query>
 
-        <paper-datatable-api data="[[data]]">
-            <paper-datatable-api-column header="Rating" property="rating">
+        <vaadin-grid theme="row-dividers" items="[[data]]">
+            <vaadin-grid-column>
+                <template class="header">Rating</template>
                 <template>
-                <l2t-paper-rating rating="{{value}}" readonly></l2t-paper-rating>
+                    <l2t-paper-rating rating="[[item.rating]]" readonly></l2t-paper-rating>
                 </template>
-            </paper-datatable-api-column>
-            <paper-datatable-api-column header="Name" property="name">
-                <template>
-                <span>{{value}}</span>
-                </template>
-            </paper-datatable-api-column>
-            <paper-datatable-api-column header="Type" property="type">
-                <template>
-                <span>{{value}}</span>
-                </template>
-            </paper-datatable-api-column>
-            <paper-datatable-api-column header="Region" property="region">
-                <template>
-                <span>{{value}}</span>
-                </template>
-            </paper-datatable-api-column>
-            <paper-datatable-api-column header="Notes" property="notes">
-                <template>
-                <span>{{value}}</span>
-                </template>
-            </paper-datatable-api-column>
-        </paper-datatable-api>
-    </template>
+            </vaadin-grid-column>
+            <vaadin-grid-column>
+                <template class="header">Name</template>
+                <template>[[item.name]]</template>
+            </vaadin-grid-column>
+            <vaadin-grid-column>
+                <template class="header">Type</template>
+                <template>[[item.type]]</template>
+            </vaadin-grid-column>
+            <vaadin-grid-column>
+                <template class="header">Region</template>
+                <template>[[item.region]]</template>
+            </vaadin-grid-column>
+            <vaadin-grid-column>
+                <template class="header">Notes</template>
+                <template>[[item.notes]]</template>
+            </vaadin-grid-column>
+        </vaadin-grid>
+   </template>
 
   <script>
     Polymer.setPassiveTouchGestures(true);

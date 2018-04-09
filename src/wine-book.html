@@ -22,6 +22,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <link rel="import" href="../bower_components/paper-dialog/paper-dialog.html">
 <link rel="import" href="../bower_components/paper-toolbar/paper-toolbar.html">
 <link rel="import" href="../bower_components/paper-button/paper-button.html">
+<link rel="import" href="../bower_components/polymerfire/firebase-app.html">
 
 <link rel="import" href="wine-list.html">
 <link rel="import" href="wine-entry.html">
@@ -63,6 +64,15 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       }
     </style>
 
+    <firebase-app
+        auth-domain="wineapp-1f5fc.firebaseapp.com"
+        database-url="https://wineapp-1f5fc.firebaseio.com"
+        api-key="AIzaSyDy-nFZheTQ7JxfyvXpJFb_Z4XtLIsl5Z0"
+        storage-bucket="wineapp-1f5fc.appspot.com"
+        messaging-sender-id="152006776066"
+        project-id="wineapp-1f5fc">
+    </firebase-app>
+
     <app-header slot="header" condenses reveals effects="waterfall">
       <app-toolbar>
         <div main-title>Winebook</div>
@@ -77,10 +87,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         <paper-icon-button slot="top" icon="close" dialog-dismiss></paper-icon-button>
       </paper-toolbar>
       <wine-entry></wine-entry>
-      <div class="buttons">
-        <paper-button>Save</paper-button>
-      </div>
-    </paper-dialog>
+   </paper-dialog>
   
   </template>
 
@@ -94,11 +101,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
       static get properties() {
         return {
-          data: Object,
-          routeData: Object,
-          subroute: Object,
-          // This shouldn't be neccessary, but the Analyzer isn't picking up
-          // Polymer.Element#rootPath
           rootPath: String,
         };
       }

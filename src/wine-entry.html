@@ -2,9 +2,9 @@
 <link rel="import" href="../bower_components/paper-input/paper-input.html">
 <link rel="import" href="../bower_components/paper-input/paper-textarea.html">
 <link rel="import" href="../bower_components/paper-fab/paper-fab.html">
+<link rel="import" href="../bower_components/paper-button/paper-button.html">
 <link rel="import" href="../bower_components/l2t-paper-rating/l2t-paper-rating.html">
-<link rel="import" href="../bower_components/polymerfire/firebase-app.html">
-<link rel="import" href="../bower_components/polymerfire/firebase-document.html">
+<link rel="import" href="../bower_components/polymerfire/firebase-query.html">
 
 <dom-module id="wine-entry">
     <template>
@@ -14,13 +14,22 @@
             }
         </style>
         
+        <firebase-query
+            id="wines"
+            path="/wines"
+            data={{data}}>
+        </firebase-query>
+
         <div class="data-form">
-            <paper-input label="Name"></paper-input>    
-            <paper-input label="Type"></paper-input>    
-            <paper-input label="Region"></paper-input>
-            <paper-textarea label="Notes"></paper-textarea>
-            <l2t-paper-rating></l2t-paper-rating>
-            <paper-input label="LCBO No."></paper-input>    
+            <paper-input id="name" label="Name"></paper-input>    
+            <paper-input id="type" label="Type"></paper-input>    
+            <paper-input id="region" label="Region"></paper-input>
+            <paper-textarea id="notes" label="Notes"></paper-textarea>
+            <l2t-paper-rating id="rating"></l2t-paper-rating>
+            <paper-input id="lcbono" type="number" label="LCBO No."></paper-input>
+            <div class="buttons">
+                <paper-button on-tap="saveData" raised>Save</paper-button>
+            </div>
         </div>
     </template>
     <script>
@@ -29,12 +38,19 @@
 
             static get properties() {
                 return {
-                    name: String,
-                    type: String,
-                    rating: Number,
-                    region: String,
-                    notes: String,
+                    data: Object
                 };
+            }
+
+            saveData() {
+                this.$.wines.ref.push({
+                    name: this.$.name.value,
+                    type: this.$.type.value,
+                    region: this.$.region.value,
+                    notes: this.$.notes.value,
+                    rating: this.$.rating.rating,
+                    lcbono: this.$.lcbono.value
+                });
             }
         }
 
