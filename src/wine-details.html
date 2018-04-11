@@ -3,22 +3,30 @@
 
 <dom-module id="wine-details">
     <template>
-        <style></style>
+        <style>
 
-        <div class="header">Test Wine</div>
-        <div class="details">
-            <span>Type</span>
-            <span>Region</span>
+        </style>
+        <div class="card">
+            <div class="image">
+                <img src="http://via.placeholder.com/350x150" />
+            </div>
+            <h2>[[wine.name]]</h2>
+            <div class="details">
+                <span>[[wine.type]]</span>
+                <span>[[wine.region]]</span>
+            </div>
+            <l2t-paper-rating rating="[[wine.rating]]" readonly></l2t-paper-rating>
+            <span>[[wine.notes]]</span>
         </div>
-        <l2t-paper-rating rating="5" readonly></l2t-paper-rating>
-        <span>Notes</span>
     </template>
     <script>
         class WineDetails extends Polymer.Element {
             static get is() { return 'wine-details'; }
 
             static get properties() {
-                return {};
+                return {
+                    wine: Object
+                };
             }
         }
 
