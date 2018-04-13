@@ -1,22 +1,35 @@
 <link rel="import" href="../bower_components/polymer/polymer-element.html">
+<link rel="import" href="../bower_components/iron-icons/maps-icons.html">
 <link rel="import" href="../bower_components/l2t-paper-rating/l2t-paper-rating.html">
 
 <dom-module id="wine-details">
     <template>
         <style>
-
+            .content {
+                display: flex;
+                flex-direction: column;
+            }
+            .details {
+                display: flex;
+                flex-direction: row;
+                justify-content: space-around;
+            }
         </style>
-        <div class="card">
+        <div class="content">
             <div class="image">
                 <img src="http://via.placeholder.com/350x150" />
             </div>
             <h2>[[wine.name]]</h2>
             <div class="details">
-                <span>[[wine.type]]</span>
-                <span>[[wine.region]]</span>
+                <span><iron-icon icon="maps:local-drink"></iron-icon>[[wine.type]]</span>
+                <span><iron-icon icon="maps:pin-drop"></iron-icon>[[wine.region]]</span>
             </div>
-            <l2t-paper-rating rating="[[wine.rating]]" readonly></l2t-paper-rating>
-            <span>[[wine.notes]]</span>
+            <div class="rating">
+                <l2t-paper-rating rating="[[wine.rating]]" readonly></l2t-paper-rating>
+            </div>
+            <div class="notes">
+                <span>[[wine.notes]]</span>
+            </div>
         </div>
     </template>
     <script>

@@ -11,12 +11,16 @@
 
 <dom-module id="wine-list">
     <template>
-        <style></style>
+        <style>
+            .wine-icon {
+                --iron-icon-fill-color: var(--app-primary-color);
+            }
+        </style>
 
         <vaadin-grid id="grid" items="[[wines]]">
             <vaadin-grid-column width="60px" flex-grow="0">
                 <template>
-                    <paper-icon-button icon="icons:info-outline" on-tap="viewDetails"></paper-icon-button>
+                    <paper-icon-button class="wine-icon" icon="icons:info-outline" on-tap="viewDetails"></paper-icon-button>
                 </template>
             </vaadin-grid-column>
             <vaadin-grid-column>
@@ -44,7 +48,7 @@
         </vaadin-grid>
 
         <paper-dialog id="detail" modal>
-            <wine-details wine="{{wine}}"></wine-details>
+            <wine-details wine="{{wine}}" class="no-padding"></wine-details>
             <div class="buttons">
                 <paper-button dialog-dismiss>Close</paper-button>
             </div>
