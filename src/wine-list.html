@@ -5,6 +5,8 @@
 <link rel="import" href="../bower_components/paper-icon-button/paper-icon-button.html">
 <link rel="import" href="../bower_components/vaadin-grid/vaadin-grid.html">
 <link rel="import" href="../bower_components/l2t-paper-rating/l2t-paper-rating.html">
+<link rel="import" href="../bower_components/polymerfire/firebase-app.html">
+<link rel="import" href="../bower_components/polymerfire/firebase-query.html">
 
 <link rel="import" href="wine-grid-style.html">
 <link rel="import" href="wine-details.html">
@@ -17,10 +19,21 @@
             }
         </style>
 
+        <firebase-query
+            id="wines"
+            path="/wines"
+            data={{data}}>
+        </firebase-query>
+
         <vaadin-grid id="grid" items="[[wines]]">
             <vaadin-grid-column width="60px" flex-grow="0">
                 <template>
                     <paper-icon-button class="wine-icon" icon="icons:info-outline" on-tap="viewDetails"></paper-icon-button>
+                </template>
+            </vaadin-grid-column>
+            <vaadin-grid-column width="60px" flex-grow="0">
+                <template>
+                    <paper-icon-button class="wine-icon" icon="icons:delete" on-tap="deleteItem"></paper-icon-button>
                 </template>
             </vaadin-grid-column>
             <vaadin-grid-column>
@@ -48,7 +61,7 @@
         </vaadin-grid>
 
         <paper-dialog id="detail" modal>
-            <wine-details wine="{{wine}}" class="no-padding"></wine-details>
+            <wine-details wine="[[wine]]" class="no-padding"></wine-details>
             <div class="buttons">
                 <paper-button dialog-dismiss>Close</paper-button>
             </div>
@@ -66,12 +79,23 @@
           wines: Object,
           wine: Object,
           rootPath: String,
+          data: Object,
         };
       }
 
       viewDetails(e) {
           this.setProperties({wine: e.model.item});
           this.$.detail.open();
+      }
+
+      deleteItem(e) {
+          var key = e.model.item.$key;
+          try {
+            this.$.wines.ref.child(key).remove();
+          }
+          catch(exception) {
+              console.log(exception);
+          }
       }
     }
 

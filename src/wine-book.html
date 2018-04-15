@@ -93,10 +93,11 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       <paper-toolbar>
         <paper-icon-button slot="top" icon="icons:close" dialog-dismiss></paper-icon-button>
       </paper-toolbar>
-      <wine-entry wine="{{data}}"></wine-entry>
+      <wine-entry wine="{{newWine}}"></wine-entry>
       <div class="buttons">
         <paper-button on-tap="saveData" raised>Save</paper-button>
       </div>
+    </template>
    </paper-dialog>
  </template>
 
@@ -110,10 +111,27 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
       static get properties() {
         return {
-          data: Object
+          data: Object,
+          newWine: {
+            type: Object,
+            value: function () {
+              return { 
+                name: "",
+                type: "",
+                region: "",
+                notes: "",
+                rating: 0,
+                lcbono: 0 
+              };
+            }
+          }
         };
       }
-
+      
+      saveData() {
+        this.$.wines.ref.push(this.newWine);
+      }
+      
       openDialog() {
         this.$.entry.open();
       }

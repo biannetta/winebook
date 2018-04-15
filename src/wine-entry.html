@@ -13,12 +13,12 @@
         </style>
         
         <div class="data-form">
-            <paper-input id="name" label="Name"></paper-input>    
-            <paper-input id="type" label="Type"></paper-input>    
-            <paper-input id="region" label="Region"></paper-input>
-            <paper-textarea id="notes" label="Notes"></paper-textarea>
-            <l2t-paper-rating id="rating"></l2t-paper-rating>
-            <paper-input id="lcbono" type="number" label="LCBO No."></paper-input>
+            <paper-input id="name" label="Name" value="{{wine.name}}"></paper-input>    
+            <paper-input id="type" label="Type" value="{{wine.type}}"></paper-input>    
+            <paper-input id="region" label="Region" value="{{wine.region}}"></paper-input>
+            <paper-textarea id="notes" label="Notes" value="{{wine.notes}}"></paper-textarea>
+            <l2t-paper-rating id="rating" rating="{{wine.rating}}"></l2t-paper-rating>
+            <paper-input id="lcbono" type="number" label="LCBO No." value="{{wine.lcbono}}"></paper-input>
        </div>
     </template>
     <script>
@@ -27,21 +27,10 @@
 
             static get properties() {
                 return {
-                    wine: Object
+                    wine: Object,
                 };
             }
-
-            saveData() {
-                this.$.wines.ref.push({
-                    name: this.$.name.value,
-                    type: this.$.type.value,
-                    region: this.$.region.value,
-                    notes: this.$.notes.value,
-                    rating: this.$.rating.rating,
-                    lcbono: this.$.lcbono.value
-                });
-            }
-        }
+       }
 
         window.customElements.define(WineEntry.is, WineEntry);
     </script>
