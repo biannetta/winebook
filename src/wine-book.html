@@ -61,7 +61,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         width: 500px;
       }
 
-      paper-toolbar {
+      #entry:first-child {
         margin-top: 0;
         --paper-toolbar-background: var(--app-primary-color);
       }
@@ -84,19 +84,25 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         data={{data}}>
     </firebase-query>
 
-    <app-header slot="header" condenses fixed>
-      <app-toolbar>
-        <div main-title>Winebook</div>
-        <paper-icon-button icon="icons:add-circle" on-tap="openDialog" disabled$="[[!user]]"></paper-icon-button>
-      </app-toolbar>
-    </app-header>
-
-    <wine-list wines="[[data]]"></wine-list>
+    <app-header-layout>
+      <app-header slot="header" condenses fixed>
+        <app-toolbar>
+          <paper-icon-button icon="icons:menu" on-tap="openDrawer"></paper-icon-button>
+          <div main-title>Winebook</div>
+          <paper-icon-button icon="icons:add-circle" on-tap="openDialog" hidden$="[[user]]"></paper-icon-button>
+        </app-toolbar>
+      </app-header>
+      <wine-list wines="[[data]]"></wine-list>
+    </app-header-layout>
+    
+    <app-drawer id="drawer" slot="drawer" swipe-open></app-drawer>
 
     <paper-dialog id="entry" modal>
-      <paper-toolbar>
-        <paper-icon-button slot="top" icon="icons:close" dialog-dismiss></paper-icon-button>
-      </paper-toolbar>
+      <app-header condensed fixed>
+        <app-toolbar>
+          <paper-icon-button icon="icons:close" dialog-dismiss></paper-icon-button>
+        </app-toolbar>
+      </app-header>
       <wine-entry wine="{{newWine}}"></wine-entry>
       <div class="buttons">
         <paper-button on-tap="saveData" raised>Save</paper-button>
@@ -152,6 +158,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       
       openDialog() {
         this.$.entry.open();
+      }
+
+      openDrawer() {
+        this.$.drawer.toggle();
       }
     }
 
