@@ -27,6 +27,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <link rel="import" href="../bower_components/iron-icons/iron-icons.html">
 <link rel="import" href="../bower_components/paper-listbox/paper-listbox.html">
 <link rel="import" href="../bower_components/paper-item/paper-item.html">
+<link rel="import" href="../bower_components/iron-image/iron-image.html">
 
 <link rel="import" href="wine-list.html">
 <link rel="import" href="wine-entry.html">
@@ -67,6 +68,13 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         margin-top: 0;
         --paper-toolbar-background: var(--app-primary-color);
       }
+
+      .avatar {
+        background-size: cover;
+        background-position: top center;
+        border-radius: 50%;
+      }
+
     </style>
 
     <firebase-app
@@ -100,10 +108,14 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     <app-drawer id="drawer" slot="drawer" swipe-open>
       <app-header-layout>
         <app-header>
-          <div main-title>Menu</div>
+          <div class="avatar-container">
+              <iron-image class="avatar" src="[[user.photoURL]]"></iron-image>
+          </div>
+          <div>[[user.displayName]]</div>
         </app-header>
         <paper-listbox>
-          <paper-item on-tap="login">Login</paper-item>
+          <paper-item on-tap="login" hidden$="[[user]]">Login</paper-item>
+          <paper-item on-tap="logout" hidden$="[[!user]]">Logout</paper-item>
         </paper-listbox>
       </app-header-layout>
     </app-drawer>
@@ -176,6 +188,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           console.log(error)
         });
       }
+      
+      logout() {
+        this.$.auth.signOut();
+      }
 
       openDialog() {
         this.$.entry.open();
@@ -183,6 +199,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
       openDrawer() {
         this.$.drawer.toggle();
+        console.log(this.user);
       }
     }
 
