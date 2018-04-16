@@ -22,6 +22,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <link rel="import" href="../bower_components/paper-toolbar/paper-toolbar.html">
 <link rel="import" href="../bower_components/paper-button/paper-button.html">
 <link rel="import" href="../bower_components/polymerfire/firebase-app.html">
+<link rel="import" href="../bower_components/polymerfire/firebase-auth.html">
 <link rel="import" href="../bower_components/polymerfire/firebase-query.html">
 <link rel="import" href="../bower_components/iron-icons/iron-icons.html">
 
@@ -37,6 +38,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         --app-secondary-color: #7C334F;
         --rating-icon-color: #DAA520;
         display: block;
+        --paper-icon-button-disabled-text: #d3afbd;
       }
 
       app-header {
@@ -74,6 +76,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         project-id="wineapp-1f5fc">
     </firebase-app>
 
+    <firebase-auth id="auth" user="{{user}}" provider="google" on-error="handleError"></firebase-auth>
+    
     <firebase-query
         id="wines"
         path="/wines"
@@ -83,7 +87,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     <app-header slot="header" condenses fixed>
       <app-toolbar>
         <div main-title>Winebook</div>
-        <paper-icon-button icon="icons:add-circle" on-tap="openDialog"></paper-icon-button>
+        <paper-icon-button icon="icons:add-circle" on-tap="openDialog" disabled$="[[!user]]"></paper-icon-button>
       </app-toolbar>
     </app-header>
 
@@ -112,6 +116,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       static get properties() {
         return {
           data: Object,
+          user: Object,
           newWine: {
             type: Object,
             value: function () {
@@ -129,7 +134,20 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       }
       
       saveData() {
-        this.$.wines.ref.push(this.newWine);
+        try {
+          this.$.wines.ref.push(this.newWine);
+          this.set('newWine', {
+            name: "",
+            type: "",
+            region: "",
+            notes: "",
+            rating: 0,
+            lcbono: 0  
+          });
+        }
+        catch(exception) {
+          console.log(exception);
+        }
       }
       
       openDialog() {

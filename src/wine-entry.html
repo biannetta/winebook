@@ -17,7 +17,8 @@
             <paper-input id="type" label="Type" value="{{wine.type}}"></paper-input>    
             <paper-input id="region" label="Region" value="{{wine.region}}"></paper-input>
             <paper-textarea id="notes" label="Notes" value="{{wine.notes}}"></paper-textarea>
-            <l2t-paper-rating id="rating" rating="{{wine.rating}}"></l2t-paper-rating>
+            <paper-input id="rating" type="number" label="Rating" value="{{wine.rating}}"></paper-input>
+            <l2t-paper-rating id="rating" rating="[[wine.rating]]" readonly></l2t-paper-rating>
             <paper-input id="lcbono" type="number" label="LCBO No." value="{{wine.lcbono}}"></paper-input>
        </div>
     </template>

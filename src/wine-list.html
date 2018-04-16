@@ -4,20 +4,28 @@
 <link rel="import" href="../bower_components/paper-button/paper-button.html">
 <link rel="import" href="../bower_components/paper-icon-button/paper-icon-button.html">
 <link rel="import" href="../bower_components/vaadin-grid/vaadin-grid.html">
+<link rel="import" href="../bower_components/vaadin-grid/vaadin-grid-sorter.html">
 <link rel="import" href="../bower_components/l2t-paper-rating/l2t-paper-rating.html">
-<link rel="import" href="../bower_components/polymerfire/firebase-app.html">
+<link rel="import" href="../bower_components/polymerfire/firebase-auth.html">
 <link rel="import" href="../bower_components/polymerfire/firebase-query.html">
+<link rel="import" href="../bower_components/polymerfire/firebase-document.html">
 
 <link rel="import" href="wine-grid-style.html">
 <link rel="import" href="wine-details.html">
+<link rel="import" href="wine-entry.html">
 
 <dom-module id="wine-list">
     <template>
         <style>
+            :host {
+                --paper-icon-button-disabled-text: #d3afbd;
+            }
             .wine-icon {
                 --iron-icon-fill-color: var(--app-primary-color);
             }
         </style>
+
+        <firebase-auth user="{{user}}"></firebase-auth>
 
         <firebase-query
             id="wines"
@@ -25,19 +33,26 @@
             data={{data}}>
         </firebase-query>
 
-        <vaadin-grid id="grid" items="[[wines]]">
+        <vaadin-grid id="wine-grid" items="[[wines]]">
             <vaadin-grid-column width="60px" flex-grow="0">
                 <template>
                     <paper-icon-button class="wine-icon" icon="icons:info-outline" on-tap="viewDetails"></paper-icon-button>
                 </template>
             </vaadin-grid-column>
-            <vaadin-grid-column width="60px" flex-grow="0">
+            <vaadin-grid-column hidden$="[[!user]]" width="60px" flex-grow="0">
                 <template>
                     <paper-icon-button class="wine-icon" icon="icons:delete" on-tap="deleteItem"></paper-icon-button>
                 </template>
             </vaadin-grid-column>
-            <vaadin-grid-column>
-                <template class="header">Rating</template>
+            <vaadin-grid-column hidden$="[[!user]]" width="60px" flex-grow="0">
+                <template>
+                    <paper-icon-button class="wine-icon" icon="icons:create" on-tap="editRecord"></paper-icon-button>
+                </template>
+            </vaadin-grid-column>
+            <vaadin-grid-column width="200px" flex-grow="0">
+                <template class="header">
+                    <vaadin-grid-sorter path="rating">Rating</vaadin-grid-sorter>
+                </template>
                 <template>
                     <l2t-paper-rating rating="[[item.rating]]" readonly></l2t-paper-rating>
                 </template>
@@ -50,7 +65,7 @@
                 <template class="header">Type</template>
                 <template>[[item.type]]</template>
             </vaadin-grid-column>
-            <vaadin-grid-column>
+            <vaadin-grid-column width="100px" flex-grow="0">
                 <template class="header">Region</template>
                 <template>[[item.region]]</template>
             </vaadin-grid-column>
@@ -62,6 +77,17 @@
 
         <paper-dialog id="detail" modal>
             <wine-details wine="[[wine]]" class="no-padding"></wine-details>
+            <div class="buttons">
+                <paper-button dialog-dismiss>Close</paper-button>
+            </div>
+        </paper-dialog>
+
+        <paper-dialog id="edit" modal>
+            <firebase-document
+                path="/wines/[[key]]"
+                data="{{wine}}">
+            </firebase-document>
+            <wine-entry wine="{{wine}}"></wine-entry>
             <div class="buttons">
                 <paper-button dialog-dismiss>Close</paper-button>
             </div>
@@ -78,14 +104,21 @@
         return {
           wines: Object,
           wine: Object,
+          key: String,
           rootPath: String,
           data: Object,
+          user: Object,
         };
       }
 
       viewDetails(e) {
           this.setProperties({wine: e.model.item});
           this.$.detail.open();
+      }
+
+      editRecord(e) {
+          this.setProperties({key: e.model.item.$key});
+          this.$.edit.open();
       }
 
       deleteItem(e) {
@@ -98,6 +131,9 @@
           }
       }
     }
+
+    var grid = document.querySelector('#wine-grid');
+    console.log(grid);
 
     window.customElements.define(WineList.is, WineList);
   </script>
