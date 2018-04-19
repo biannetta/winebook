@@ -68,11 +68,17 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         margin-top: 0;
         --paper-toolbar-background: var(--app-primary-color);
       }
+      
+      .avatar-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
 
       .avatar {
-        background-size: cover;
-        background-position: top center;
         border-radius: 50%;
+        height: 200px;
+        width: 200px;
       }
 
     </style>
@@ -91,7 +97,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     <firebase-query
         id="wines"
         path="/wines"
-        data={{data}}>
+        data={{data}}
+        order-by-child="region"
+        equal-to="Italy">
     </firebase-query>
 
     <app-header-layout>
@@ -109,9 +117,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       <app-header-layout>
         <app-header>
           <div class="avatar-container">
-              <iron-image class="avatar" src="[[user.photoURL]]"></iron-image>
+            <iron-image class="avatar" src="[[user.photoURL]]"></iron-image>
+            <div>[[user.displayName]]</div>
           </div>
-          <div>[[user.displayName]]</div>
         </app-header>
         <paper-listbox>
           <paper-item on-tap="login" hidden$="[[user]]">Login</paper-item>
