@@ -34,11 +34,11 @@
         </firebase-query>
 
         <vaadin-grid id="wine-grid" items="[[wines]]">
-            <vaadin-grid-column width="60px" flex-grow="0">
+            <!--<vaadin-grid-column width="60px" flex-grow="0">
                 <template>
                     <paper-icon-button class="wine-icon" icon="icons:info-outline" on-tap="viewDetails"></paper-icon-button>
                 </template>
-            </vaadin-grid-column>
+            </vaadin-grid-column>-->
             <vaadin-grid-column hidden$="[[!user]]" width="60px" flex-grow="0">
                 <template>
                     <paper-icon-button class="wine-icon" icon="icons:delete" on-tap="deleteItem"></paper-icon-button>
