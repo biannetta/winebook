@@ -106,11 +106,16 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                pattern="/:page"
                data="{{routeData}}" 
                tail="{{subRoute}}"></app-route>
+    <app-route route="{{subRoute}}"
+               pattern="/:index"
+               data="{{subRouteData}}"
+               active="{{detailsVisible}}"></app-route>
 
     <app-header-layout>
       <app-header slot="header" condenses fixed>
         <app-toolbar>
-          <paper-icon-button icon="icons:menu" on-tap="openDrawer"></paper-icon-button>
+          <paper-icon-button icon="icons:menu" on-tap="openDrawer" hidden$="[[!user]]"></paper-icon-button>
+          <paper-icon-button icon="icons:arrow-back" on-tap="navigateBack" hidden$="[[!detailsVisible]]"></paper-icon-button>
           <div main-title>Winebook</div>
           <paper-icon-button icon="icons:add-circle" on-tap="openDialog" hidden$="[[!user]]"></paper-icon-button>
         </app-toolbar>
@@ -119,6 +124,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
     <iron-pages selected="[[routeData.page]]" attr-for-selected="name">
       <wine-list name="" wines="[[data]]"></wine-list>
+      <wine-details name="detail" wine="[[_getWineByKey(subRouteData.index)]]"></wine-details>
     </iron-pages>
     
     <app-drawer id="drawer" slot="drawer" swipe-open>
@@ -165,6 +171,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           route: Object,
           routeData: Object,
           subRoute: Object,
+          subRouteData: Object,
+          detailsVisible: Boolean,
           data: Object,
           user: Object,
           newWine: {
@@ -221,6 +229,14 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         console.log(this.route);
         console.log(this.routeData);
         console.log(this.subRoute);
+      }
+      
+      navigateBack() {
+        this.set('route.path', '/');
+      }
+
+      _getWineByKey(key) {
+        return this.data.find( wine => wine.$key == key);
       }
     }
 

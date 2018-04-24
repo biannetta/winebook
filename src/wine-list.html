@@ -36,7 +36,7 @@
         <vaadin-grid id="wine-grid" items="[[wines]]">
             <vaadin-grid-column width="60px" flex-grow="0">
                 <template>
-                    <a href="#/detail/[[index]]"><paper-icon-button class="wine-icon" icon="icons:info-outline"></paper-icon-button></a>
+                    <a href="#/detail/[[item.$key]]"><paper-icon-button class="wine-icon" icon="icons:info-outline"></paper-icon-button></a>
                 </template>
             </vaadin-grid-column>
             <vaadin-grid-column hidden$="[[!user]]" width="60px" flex-grow="0">
@@ -74,13 +74,6 @@
                 <template>[[item.notes]]</template>
             </vaadin-grid-column>
         </vaadin-grid>
-
-        <paper-dialog id="detail" modal>
-            <wine-details wine="[[wine]]" class="no-padding"></wine-details>
-            <div class="buttons">
-                <paper-button dialog-dismiss>Close</paper-button>
-            </div>
-        </paper-dialog>
 
         <paper-dialog id="edit" modal>
             <firebase-document
