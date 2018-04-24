@@ -16,20 +16,12 @@
             }
         </style>
         <div class="content">
-            <div class="image">
-                <img src="http://via.placeholder.com/350x150" />
-            </div>
+            <img src="http://via.placeholder.com/350x150" />
             <h2>[[wine.name]]</h2>
-            <div class="details">
-                <span><iron-icon icon="maps:local-drink"></iron-icon>[[wine.type]]</span>
-                <span><iron-icon icon="maps:pin-drop"></iron-icon>[[wine.region]]</span>
-            </div>
-            <div class="rating">
-                <l2t-paper-rating rating="[[wine.rating]]" readonly></l2t-paper-rating>
-            </div>
-            <div class="notes">
-                <span>[[wine.notes]]</span>
-            </div>
+            <span><iron-icon icon="maps:local-drink"></iron-icon>[[wine.type]]</span>
+            <span><iron-icon icon="maps:pin-drop"></iron-icon>[[wine.region]]</span>
+            <l2t-paper-rating rating="[[wine.rating]]" readonly></l2t-paper-rating>
+            <div class="notes">[[wine.notes]]</div>
         </div>
     </template>
     <script>

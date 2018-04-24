@@ -118,6 +118,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           <paper-icon-button icon="icons:arrow-back" on-tap="navigateBack" hidden$="[[!detailsVisible]]"></paper-icon-button>
           <div main-title>Winebook</div>
           <paper-icon-button icon="icons:add-circle" on-tap="openDialog" hidden$="[[!user]]"></paper-icon-button>
+          <paper-icon-button icon="icons:perm-identity" on-tap="login" hidden$="[[user]]"></paper-icon-button>
         </app-toolbar>
       </app-header>
     </app-header-layout>
