@@ -25,6 +25,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <link rel="import" href="../bower_components/polymerfire/firebase-auth.html">
 <link rel="import" href="../bower_components/polymerfire/firebase-query.html">
 <link rel="import" href="../bower_components/iron-icons/iron-icons.html">
+<link rel="import" href="../bower_components/iron-pages/iron-pages.html">
 <link rel="import" href="../bower_components/paper-listbox/paper-listbox.html">
 <link rel="import" href="../bower_components/paper-item/paper-item.html">
 <link rel="import" href="../bower_components/iron-image/iron-image.html">
@@ -100,16 +101,25 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         data={{data}}>
     </firebase-query>
 
+    <app-location route="{{route}}" use-hash-as-path></app-location>
+    <app-route route="{{route}}"
+               pattern="/:page"
+               data="{{routeData}}" 
+               tail="{{subRoute}}"></app-route>
+
     <app-header-layout>
       <app-header slot="header" condenses fixed>
         <app-toolbar>
-          <paper-icon-button icon="icons:menu" on-tap="openDrawer" hidden></paper-icon-button>
+          <paper-icon-button icon="icons:menu" on-tap="openDrawer"></paper-icon-button>
           <div main-title>Winebook</div>
           <paper-icon-button icon="icons:add-circle" on-tap="openDialog" hidden$="[[!user]]"></paper-icon-button>
         </app-toolbar>
       </app-header>
     </app-header-layout>
-    <wine-list wines="[[data]]"></wine-list>
+
+    <iron-pages selected="[[routeData.page]]" attr-for-selected="name">
+      <wine-list name="" wines="[[data]]"></wine-list>
+    </iron-pages>
     
     <app-drawer id="drawer" slot="drawer" swipe-open>
       <app-header-layout>
@@ -134,7 +144,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           </app-toolbar>
         </app-header>
       </app-header-layout>
-      <wine-entry wine="{{newWine}}"></wine-entry>
+      <wine-entry name="home" wine="{{newWine}}"></wine-entry>
       <div class="buttons">
         <paper-button on-tap="saveData" raised>Save</paper-button>
       </div>
@@ -152,6 +162,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
       static get properties() {
         return {
+          route: Object,
+          routeData: Object,
+          subRoute: Object,
           data: Object,
           user: Object,
           newWine: {
@@ -205,7 +218,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
       openDrawer() {
         this.$.drawer.toggle();
-        console.log(this.user);
+        console.log(this.route);
+        console.log(this.routeData);
+        console.log(this.subRoute);
       }
     }
 
