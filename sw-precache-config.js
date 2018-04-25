@@ -26,4 +26,6 @@ module.exports = {
       },
     },
   ],
+  navigateFallback: '/index.html',
+  navigateFallbackWhitelist: [ /^\/[^\_]+\/?/ ]
 };
