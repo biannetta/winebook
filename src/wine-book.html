@@ -45,14 +45,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         display: block;
         --paper-icon-button-disabled-text: #d3afbd;
       }
-
+      
       app-header {
         color: #fff;
         background-color: var(--app-primary-color);
-      }
-
-      app-toolbar {
-        text-align: center;
       }
 
       [main-title] {
@@ -62,16 +58,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         text-shadow:#7F7B75 0 1px 5px;
       }
 
-      #entry {
-        width: 500px;
-      }
-
-      #entry:first-child {
-        margin-top: 0;
-        --paper-toolbar-background: var(--app-primary-color);
-      }
-      
-      .avatar-container {
+     .avatar-container {
         display: flex;
         flex-direction: column;
         align-items: center;
@@ -112,39 +99,38 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                data="{{subRouteData}}"
                active="{{detailsVisible}}"></app-route>
 
-    <app-header-layout>
-      <app-header slot="header" condenses fixed>
-        <app-toolbar>
-          <div class="left-bar-item">
-            <paper-icon-button icon="icons:menu" on-tap="openDrawer" hidden$="[[!user]]"></paper-icon-button>
-            <paper-icon-button icon="icons:arrow-back" on-tap="navigateBack" hidden$="[[!detailsVisible]]"></paper-icon-button>
-          </div>
-          <div main-title>Winebook</div>
-          <div class="right-bar-item">
-            <paper-icon-button icon="icons:perm-identity" on-tap="login" hidden$="[[!user]]"></paper-icon-button>
-          </div>
-        </app-toolbar>
-      </app-header>
-    </app-header-layout>
+    <app-drawer-layout>
+      <app-drawer id="drawer" slot="drawer" swipe-open>
+          <app-toolbar>Menu</app-toolbar>
+          <paper-listbox>
+            <paper-item on-tap="login" hidden$="[[user]]">Login</paper-item>
+            <paper-item on-tap="logout" hidden$="[[!user]]">Logout</paper-item>
+          </paper-listbox>
+        </app-drawer>
+      
 
-    <iron-pages selected="[[routeData.page]]" attr-for-selected="name">
-      <wine-card name="card" wines="[[data]]"></wine-card>
-      <wine-list name="" wines="[[data]]"></wine-list>
-      <wine-detail name="detail" wine="[[_getWineByKey(subRouteData.index)]]"></wine-detail>
-      <wine-entry name="entry"></wine-entry>
-    </iron-pages>
-    
-    <app-drawer id="drawer" slot="drawer" swipe-open>
       <app-header-layout>
-        <app-header>
-          <div main-title>Menu</div>
+        <app-header slot="header" condenses fixed>
+          <app-toolbar>
+            <div class="left-bar-item">
+              <paper-icon-button icon="icons:menu" on-tap="openDrawer" hidden$="[[detailsVisible]]"></paper-icon-button>
+              <paper-icon-button icon="icons:arrow-back" on-tap="navigateBack" hidden$="[[!detailsVisible]]"></paper-icon-button>
+            </div>
+            <div main-title>Winebook</div>
+            <div class="right-bar-item">
+              <paper-icon-button icon="icons:perm-identity" on-tap="login" hidden$="[[!user]]"></paper-icon-button>
+            </div>
+          </app-toolbar>
         </app-header>
-        <paper-listbox>
-          <paper-item on-tap="login" hidden$="[[user]]">Login</paper-item>
-          <paper-item on-tap="logout" hidden$="[[!user]]">Logout</paper-item>
-        </paper-listbox>
+
+        <iron-pages selected="[[routeData.page]]" attr-for-selected="name">
+          <wine-card name="card" wines="[[data]]"></wine-card>
+          <wine-list name="" wines="[[data]]"></wine-list>
+          <wine-detail name="detail" wine="[[_getWineByKey(subRouteData.index)]]"></wine-detail>
+          <wine-entry name="entry"></wine-entry>
+        </iron-pages>
       </app-header-layout>
-    </app-drawer>
+    </app-drawer-layout>
   </template>
 
   <script>

@@ -1,27 +1,43 @@
 <link rel="import" href="../bower_components/polymer/polymer-element.html">
+<link rel="import" href="../bower_components/paper-card/paper-card.html">
 <link rel="import" href="../bower_components/iron-icons/maps-icons.html">
 <link rel="import" href="../bower_components/l2t-paper-rating/l2t-paper-rating.html">
 
 <dom-module id="wine-detail">
     <template>
         <style>
-            .content {
+            .card-header {
+                color: whitesmoke;
                 display: flex;
                 flex-direction: column;
+                padding: 10px 15px;
             }
-            .details {
-                display: flex;
-                flex-direction: row;
-                justify-content: space-around;
+            .card-title {
+                font-size: 16pt;
+            }
+            .card-subtitle {
+                font-size: 12pt;
+                font-style: italic;
+            }
+            .card-notes {
+                height: 200px;
+                padding: 10px 
+            }
+            img {
+                width: 100%;
             }
         </style>
         <div class="content">
-            <img src="http://via.placeholder.com/350x150" />
-            <h2>[[wine.name]]</h2>
-            <span><iron-icon icon="maps:local-drink"></iron-icon>[[wine.type]]</span>
-            <span><iron-icon icon="maps:pin-drop"></iron-icon>[[wine.region]]</span>
-            <l2t-paper-rating rating="[[wine.rating]]" readonly></l2t-paper-rating>
-            <div class="notes">[[wine.notes]]</div>
+            <img src="http://via.placeholder.com/350x150">
+            <div class="card-header">
+                <span class="card-title">[[wine.name]]</span>
+                <span class="card-subtitle">[[wine.type]]</span>
+                <span>
+                   <l2t-paper-rating rating="[[wine.rating]]" readonly></l2t-paper-rating>
+                   <iron-icon icon="maps:pin-drop"></iron-icon>[[wine.region]]
+                </span>
+            </div>
+            <div class="card-notes">[[wine.notes]]</div>
         </div>
     </template>
     <script>
