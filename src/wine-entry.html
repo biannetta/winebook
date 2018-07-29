@@ -3,6 +3,8 @@
 <link rel="import" href="../bower_components/paper-input/paper-textarea.html">
 <link rel="import" href="../bower_components/paper-button/paper-button.html">
 <link rel="import" href="../bower_components/l2t-paper-rating/l2t-paper-rating.html">
+<link rel="import" href="../bower_components/polymerfire/firebase-auth.html">
+<link rel="import" href="../bower_components/polymerfire/firebase-query.html">
 
 <dom-module id="wine-entry">
     <template>
@@ -12,6 +14,14 @@
             }
         </style>
         
+        <firebase-auth id="auth" user="{{user}}" provider="google"></firebase-auth>
+        
+        <firebase-query
+            id="wines"
+            path="/wines"
+            data={{data}}>
+        </firebase-query>
+
         <div class="data-form">
             <paper-input id="name" label="Name" value="{{wine.name}}"></paper-input>    
             <paper-input id="type" label="Type" value="{{wine.type}}"></paper-input>    
@@ -28,8 +38,39 @@
 
             static get properties() {
                 return {
-                    wine: Object,
+                    user: Object,
+                    data: Object,
+                    wine: {
+                        type: Object,
+                        value: function () {
+                            return { 
+                                name: "",
+                                type: "",
+                                region: "",
+                                notes: "",
+                                rating: 0,
+                                lcbono: 0 
+                            };
+                        }
+                    }
                 };
+            }
+    
+            saveData() {
+                try {
+                    this.$.wines.ref.push(this.newWine);
+                    this.set('newWine', {
+                        name: "",
+                        type: "",
+                        region: "",
+                        notes: "",
+                        rating: 0,
+                        lcbono: 0  
+                    });
+                }
+                catch(exception) {
+                    console.log(exception);
+                }
             }
        }
 

@@ -1,7 +1,7 @@
 {
-  "name": "My App",
-  "short_name": "My App",
-  "description": "My App description",
+  "name": "Winebook",
+  "short_name": "Winebook",
+  "description": "The Book of all wines tasted at our Wine Nights",
   "icons": [
     {
       "src": "images/manifest/icon-192x192.png",
@@ -14,8 +14,8 @@
       "type": "image/png"
     }
   ],
-  "start_url": "/",
+  "start_url": "/#/card",
   "display": "standalone",
-  "theme_color": "#3f51b5",
-  "background_color": "#3f51b5"
+  "theme_color": "#993D60",
+  "background_color": "#7C334F"
 }

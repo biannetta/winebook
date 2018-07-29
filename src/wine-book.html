@@ -32,7 +32,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
 <link rel="import" href="wine-list.html">
 <link rel="import" href="wine-entry.html">
-<link rel="import" href="wine-details.html">
+<link rel="import" href="wine-detail.html">
+<link rel="import" href="wine-card.html">
 
 <dom-module id="wine-book">
   <template>
@@ -114,27 +115,29 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     <app-header-layout>
       <app-header slot="header" condenses fixed>
         <app-toolbar>
-          <paper-icon-button icon="icons:menu" on-tap="openDrawer" hidden$="[[_hideDrawerButton(user,detailsVisible)]]"></paper-icon-button>
-          <paper-icon-button icon="icons:arrow-back" on-tap="navigateBack" hidden$="[[!detailsVisible]]"></paper-icon-button>
+          <div class="left-bar-item">
+            <paper-icon-button icon="icons:menu" on-tap="openDrawer" hidden$="[[!user]]"></paper-icon-button>
+            <paper-icon-button icon="icons:arrow-back" on-tap="navigateBack" hidden$="[[!detailsVisible]]"></paper-icon-button>
+          </div>
           <div main-title>Winebook</div>
-          <paper-icon-button icon="icons:add-circle" on-tap="openDialog" hidden$="[[!user]]"></paper-icon-button>
-          <paper-icon-button icon="icons:perm-identity" on-tap="login" hidden$="[[user]]"></paper-icon-button>
+          <div class="right-bar-item">
+            <paper-icon-button icon="icons:perm-identity" on-tap="login" hidden$="[[!user]]"></paper-icon-button>
+          </div>
         </app-toolbar>
       </app-header>
     </app-header-layout>
 
     <iron-pages selected="[[routeData.page]]" attr-for-selected="name">
+      <wine-card name="card" wines="[[data]]"></wine-card>
       <wine-list name="" wines="[[data]]"></wine-list>
-      <wine-details name="detail" wine="[[_getWineByKey(subRouteData.index)]]"></wine-details>
+      <wine-detail name="detail" wine="[[_getWineByKey(subRouteData.index)]]"></wine-detail>
+      <wine-entry name="entry"></wine-entry>
     </iron-pages>
     
     <app-drawer id="drawer" slot="drawer" swipe-open>
       <app-header-layout>
         <app-header>
-          <div class="avatar-container">
-            <iron-image class="avatar" src="[[user.photoURL]]"></iron-image>
-            <div>[[user.displayName]]</div>
-          </div>
+          <div main-title>Menu</div>
         </app-header>
         <paper-listbox>
           <paper-item on-tap="login" hidden$="[[user]]">Login</paper-item>
@@ -142,22 +145,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         </paper-listbox>
       </app-header-layout>
     </app-drawer>
-
-    <paper-dialog id="entry" modal>
-      <app-header-layout>
-        <app-header>
-          <app-toolbar>
-            <paper-icon-button icon="icons:close" dialog-dismiss></paper-icon-button>
-          </app-toolbar>
-        </app-header>
-      </app-header-layout>
-      <wine-entry name="home" wine="{{newWine}}"></wine-entry>
-      <div class="buttons">
-        <paper-button on-tap="saveData" raised>Save</paper-button>
-      </div>
-    </template>
-   </paper-dialog>
- </template>
+  </template>
 
   <script>
     // Gesture events like tap and track generated from touch will not be
@@ -176,40 +164,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           detailsVisible: Boolean,
           data: Object,
           user: Object,
-          newWine: {
-            type: Object,
-            value: function () {
-              return { 
-                name: "",
-                type: "",
-                region: "",
-                notes: "",
-                rating: 0,
-                lcbono: 0 
-              };
-            }
-          }
         };
       }
       
-      saveData() {
-        try {
-          this.$.wines.ref.push(this.newWine);
-          this.set('newWine', {
-            name: "",
-            type: "",
-            region: "",
-            notes: "",
-            rating: 0,
-            lcbono: 0  
-          });
-        }
-        catch(exception) {
-          console.log(exception);
-        }
-      }
-      
-      login() {
+     login() {
         this.$.auth.signInWithPopup()
         .then(function(response){
           console.log(response);
@@ -231,7 +189,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       }
       
       navigateBack() {
-        this.set('route.path', '/');
+        window.history.back();
       }
 
       _getWineByKey(key) {
