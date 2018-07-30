@@ -5,7 +5,7 @@ cache:
   directories:
     - bower_components
 before_script:
-  - npm install -g polymer
+  - npm install -g polymer-cli
   - npm install -g bower
   - bower install
   - polymer build
