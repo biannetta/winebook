@@ -2,9 +2,9 @@
   "entrypoint": "index.html",
   "shell": "src/wine-book.html",
   "fragments": [
-    "src/wine-details.html",
+    "src/wine-detail.html",
     "src/wine-entry.html",
-    "src/wine-grid-style.html",
+    "src/wine-card.html",
     "src/wine-list.html"
   ],
   "sources": [

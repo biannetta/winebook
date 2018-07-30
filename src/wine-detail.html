@@ -1,0 +1,57 @@
+<link rel="import" href="../bower_components/polymer/polymer-element.html">
+<link rel="import" href="../bower_components/paper-card/paper-card.html">
+<link rel="import" href="../bower_components/iron-icons/maps-icons.html">
+<link rel="import" href="../bower_components/l2t-paper-rating/l2t-paper-rating.html">
+
+<dom-module id="wine-detail">
+    <template>
+        <style>
+            .card-header {
+                color: whitesmoke;
+                display: flex;
+                flex-direction: column;
+                padding: 10px 15px;
+            }
+            .card-title {
+                font-size: 16pt;
+            }
+            .card-subtitle {
+                font-size: 12pt;
+                font-style: italic;
+            }
+            .card-notes {
+                color: whitesmoke;
+                height: 200px;
+                padding: 15px 
+            }
+            img {
+                width: 100%;
+            }
+        </style>
+        <div class="content">
+            <img src="http://via.placeholder.com/350x150">
+            <div class="card-header">
+                <span class="card-title">[[wine.name]]</span>
+                <span class="card-subtitle">[[wine.type]]</span>
+                <span>
+                   <l2t-paper-rating rating="[[wine.rating]]" readonly></l2t-paper-rating>
+                   <iron-icon icon="maps:pin-drop"></iron-icon>[[wine.region]]
+                </span>
+            </div>
+            <div class="card-notes">[[wine.notes]]</div>
+        </div>
+    </template>
+    <script>
+        class WineDetail extends Polymer.Element {
+            static get is() { return 'wine-detail'; }
+
+            static get properties() {
+                return {
+                    wine: Object
+                };
+            }
+        }
+
+        window.customElements.define(WineDetail.is,WineDetail);
+    </script>
+</dom-module>

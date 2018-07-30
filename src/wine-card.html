@@ -1,0 +1,81 @@
+<link rel="import" href="../bower_components/polymer/polymer-element.html">
+<link rel="import" href="../bower_components/iron-icons/maps-icons.html">
+<link rel="import" href="../bower_components/paper-card/paper-card.html">
+<link rel="import" href="../bower_components/l2t-paper-rating/l2t-paper-rating.html">
+
+<dom-module id="wine-card">
+    <template>
+        <style>
+            a {
+                color: whitesmoke;
+                text-decoration: none;
+            }
+            .content {
+                align-items: center;
+                display: flex;
+                flex-direction: column;
+            }
+            .card-content {
+                background-color: var(--app-secondary-color);
+                color: whitesmoke;
+                display: block;
+                margin-top: 10px;
+                margin-bottom: 10px;
+                width: 90vw;
+            }
+            .card-header {
+                display: flex;
+                flex-direction: column;
+                padding: 10px 15px;
+            }
+            .card-title {
+                font-size: 16pt;
+            }
+            .card-subtitle {
+                font-size: 12pt;
+                font-style: italic;
+            }
+            .card-action {
+                background-color: var(--rating-icon-color);
+            }
+            .card-button {
+                font-size: 14pt;
+                padding: 10px 0px;
+                text-align: center;
+                width: 100%;
+            }
+        </style>
+        <div class="content">
+            <dom-repeat items="[[wines]]">
+                <template>
+                    <div class="card-content">
+                        <div class="card-header">
+                            <span class="card-title">[[item.name]]</span>
+                            <span class="card-subtitle">[[item.type]]</span>
+                            <span>
+                                <l2t-paper-rating rating="[[item.rating]]" readonly></l2t-paper-rating>
+                                <iron-icon icon="maps:pin-drop"></iron-icon>[[item.region]]
+                            </span>
+                        </div>
+                        <div class="card-action">
+                            <a href="#/detail/[[item.$key]]"><div class="card-button">View Details</div></a>
+                        </div>
+                    </div>
+                </template>
+            </dom-repeat>
+        </div>
+    </template>
+    <script>
+        class WineCard extends Polymer.Element {
+            static get is() { return 'wine-card'; }
+
+            static get properties() {
+                return {
+                    wines: Object
+                };
+            }
+        }
+
+        window.customElements.define(WineCard.is,WineCard);
+    </script>
+</dom-module>
