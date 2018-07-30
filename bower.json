@@ -24,7 +24,8 @@
     "paper-card": "PolymerElements/paper-card#^2.1.0",
     "iron-meta": "PolymerElements/iron-meta#^2.0.0",
     "paper-listbox": "PolymerElements/paper-listbox#^2.1.1",
-    "paper-item": "PolymerElements/paper-item#^2.1.1"
+    "paper-item": "PolymerElements/paper-item#^2.1.1",
+    "paper-toolbar": "PolymerElements/paper-toolbar#^2.1.0"
   },
   "resolutions": {
     "polymer": "^2.0.0"
