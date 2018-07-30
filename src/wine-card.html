@@ -11,9 +11,7 @@
                 text-decoration: none;
             }
             .content {
-                align-items: center;
-                display: flex;
-                flex-direction: column;
+                padding: 0px 20px;
             }
             .card-content {
                 background-color: var(--app-secondary-color);
@@ -21,7 +19,6 @@
                 display: block;
                 margin-top: 10px;
                 margin-bottom: 10px;
-                width: 90vw;
             }
             .card-header {
                 display: flex;
@@ -46,7 +43,7 @@
             }
         </style>
         <div class="content">
-            <dom-repeat items="[[wines]]">
+            <dom-repeat items="[[wines]]" filter="{{computeFilter(region)}}">
                 <template>
                     <div class="card-content">
                         <div class="card-header">
@@ -71,8 +68,19 @@
 
             static get properties() {
                 return {
-                    wines: Object
+                    wines: Object,
+                    region: String
                 };
+            }
+
+            computeFilter(filterString) {
+                if (!filterString || filterString == '') {
+                    return null;
+                } else {
+                    return function(item) {
+                        return item.region == filterString;
+                    }
+                }
             }
         }
 

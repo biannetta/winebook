@@ -72,7 +72,11 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         height: 200px;
         width: 200px;
       }
-
+ 
+      paper-item.iron-selected {
+        background-color: #7C334F;
+        color: whitesmoke;
+      }
     </style>
 
     <firebase-app
@@ -92,7 +96,13 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         data={{data}}>
     </firebase-query>
 
-    <app-location route="{{route}}" use-hash-as-path></app-location>
+    <firebase-query
+        id="regions"
+        path="/regions"
+        data={{regions}}>
+    </firebase-query
+    
+    ><app-location route="{{route}}" use-hash-as-path></app-location>
     <app-route route="{{route}}"
                pattern="/:page"
                data="{{routeData}}" 
@@ -112,9 +122,14 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       </app-drawer>
 
       <app-drawer id="filter" slot="drawer" align="right" swipe-open>
-        <app-toolbar>Filters</app-toolbar>
+        <app-toolbar>Select a Region</app-toolbar>
         <paper-listbox>
-          <paper-item><a href="#/card?spain">Spain</a></paper-item>
+          <dom-repeat items="[[regions]]">
+            <template>
+              <paper-item on-tap="_setFilter" data-filter$="[[item.name]]">[[item.name]]</paper-item>
+            </template>  
+          </dom-repeat>
+          <paper-item on-tap="_setFilter" data-filter$="" class="reset">Show All</paper-item>
         </paper-listbox>
       </app-drawer>
       
@@ -122,18 +137,18 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         <app-header slot="header" condenses fixed>
           <app-toolbar>
             <div class="left-bar-item">
-              <paper-icon-button icon="icons:menu" on-tap="openDrawer" hidden></paper-icon-button>
+              <paper-icon-button icon="icons:menu" on-tap="_toggleMenu" hidden></paper-icon-button>
               <paper-icon-button icon="icons:arrow-back" on-tap="navigateBack" hidden$="[[!detailsVisible]]"></paper-icon-button>
             </div>
             <div main-title>Winebook</div>
             <div class="right-bar-item">
-              <paper-icon-button icon="icons:filter-list" on-tap="showFilters" slot="dropdown-trigger" hidden$="[[detailsVisible]]"></paper-icon-button>
+              <paper-icon-button icon="icons:filter-list" on-tap="_toggleFilters" hidden$="[[detailsVisible]]"></paper-icon-button>
             </div>
           </app-toolbar>
         </app-header>
 
         <iron-pages selected="[[routeData.page]]" attr-for-selected="name">
-          <wine-card name="card" wines="[[data]]"></wine-card>
+          <wine-card name="card" wines="[[data]]" region="[[region]]"></wine-card>
           <wine-list name="" wines="[[data]]"></wine-list>
           <wine-detail name="detail" wine="[[_getWineByKey(subRouteData.index)]]"></wine-detail>
           <wine-entry name="entry"></wine-entry>
@@ -159,6 +174,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           detailsVisible: Boolean,
           data: Object,
           user: Object,
+          region: String,
+          regions: Object
         };
       }
       
@@ -175,15 +192,11 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         this.$.auth.signOut();
       }
 
-      openDialog() {
-        this.$.entry.open();
-      }
-
-      openDrawer() {
+      _toggleMenu() {
         this.$.drawer.toggle();
       }
 
-      showFilters() {
+      _toggleFilters() {
         this.$.filter.toggle();
       }
       
@@ -196,6 +209,11 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       }
       _hideDrawerButton(_user,_detailsActive) {
         return true || !_user || _detailsActive;
+      }
+      _setFilter(e) {
+        let filter = e.target.dataset.filter;
+        this.region = filter;
+        this._toggleFilters();
       }
     }
     window.customElements.define(WineBook.is, WineBook);
