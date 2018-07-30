@@ -21,6 +21,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <link rel="import" href="../bower_components/paper-dialog/paper-dialog.html">
 <link rel="import" href="../bower_components/paper-toolbar/paper-toolbar.html">
 <link rel="import" href="../bower_components/paper-button/paper-button.html">
+<link rel="import" href="../bower_components/paper-listbox/paper-listbox.html">
+<link rel="import" href="../bower_components/paper-item/paper-item.html">
+<link rel="import" href="../bower_components/paper-menu-button/paper-menu-button.html">
 <link rel="import" href="../bower_components/polymerfire/firebase-app.html">
 <link rel="import" href="../bower_components/polymerfire/firebase-auth.html">
 <link rel="import" href="../bower_components/polymerfire/firebase-query.html">
@@ -99,26 +102,32 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                data="{{subRouteData}}"
                active="{{detailsVisible}}"></app-route>
 
-    <app-drawer-layout>
+    <app-drawer-layout fullbleed>
       <app-drawer id="drawer" slot="drawer" swipe-open>
-          <app-toolbar>Menu</app-toolbar>
-          <paper-listbox>
-            <paper-item on-tap="login" hidden$="[[user]]">Login</paper-item>
-            <paper-item on-tap="logout" hidden$="[[!user]]">Logout</paper-item>
-          </paper-listbox>
-        </app-drawer>
-      
+        <app-toolbar>Menu</app-toolbar>
+        <paper-listbox>
+          <paper-item on-tap="login" hidden$="[[user]]">Login</paper-item>
+          <paper-item on-tap="logout" hidden$="[[!user]]">Logout</paper-item>
+        </paper-listbox>
+      </app-drawer>
 
+      <app-drawer id="filter" slot="drawer" align="right" swipe-open>
+        <app-toolbar>Filters</app-toolbar>
+        <paper-listbox>
+          <paper-item><a href="#/card?spain">Spain</a></paper-item>
+        </paper-listbox>
+      </app-drawer>
+      
       <app-header-layout>
         <app-header slot="header" condenses fixed>
           <app-toolbar>
             <div class="left-bar-item">
-              <paper-icon-button icon="icons:menu" on-tap="openDrawer" hidden$="[[detailsVisible]]"></paper-icon-button>
+              <paper-icon-button icon="icons:menu" on-tap="openDrawer" hidden></paper-icon-button>
               <paper-icon-button icon="icons:arrow-back" on-tap="navigateBack" hidden$="[[!detailsVisible]]"></paper-icon-button>
             </div>
             <div main-title>Winebook</div>
             <div class="right-bar-item">
-              <paper-icon-button icon="icons:perm-identity" on-tap="login" hidden$="[[!user]]"></paper-icon-button>
+              <paper-icon-button icon="icons:filter-list" on-tap="showFilters" slot="dropdown-trigger" hidden$="[[detailsVisible]]"></paper-icon-button>
             </div>
           </app-toolbar>
         </app-header>
@@ -172,6 +181,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
       openDrawer() {
         this.$.drawer.toggle();
+      }
+
+      showFilters() {
+        this.$.filter.toggle();
       }
       
       navigateBack() {
