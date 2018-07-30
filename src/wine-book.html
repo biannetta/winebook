@@ -23,6 +23,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <link rel="import" href="../bower_components/paper-button/paper-button.html">
 <link rel="import" href="../bower_components/paper-listbox/paper-listbox.html">
 <link rel="import" href="../bower_components/paper-item/paper-item.html">
+<link rel="import" href="../bower_components/paper-dropdown-menu/paper-dropdown-menu.html">
 <link rel="import" href="../bower_components/paper-menu-button/paper-menu-button.html">
 <link rel="import" href="../bower_components/polymerfire/firebase-app.html">
 <link rel="import" href="../bower_components/polymerfire/firebase-auth.html">
@@ -95,47 +96,45 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                data="{{subRouteData}}"
                active="{{detailsVisible}}"></app-route>
 
-    <app-drawer-layout fullbleed>
-      <app-drawer id="filter" slot="drawer" align="right" persistent swipe-open>
-        <app-toolbar>Select a Region</app-toolbar>
-        <paper-listbox selected="5">
-          <dom-repeat items="[[regions]]">
-            <template>
-              <paper-item on-tap="_setFilter" data-filter$="[[item.name]]">[[item.name]]</paper-item>
-            </template>  
-          </dom-repeat>
-          <paper-item on-tap="_setFilter" data-filter$="" class="reset" selected>Show All</paper-item>
-        </paper-listbox>
-      </app-drawer>
-      
-      <app-header-layout>
-        <app-header slot="header" condenses fixed>
-          <app-toolbar>
-            <div class="left-bar-item">
-              <paper-icon-button icon="icons:arrow-back" on-tap="navigateBack" hidden$="[[!detailsVisible]]"></paper-icon-button>
-            </div>
-            <div main-title>Winebook</div>
-            <div class="right-bar-item">
-              <paper-icon-button icon="icons:filter-list" on-tap="_toggleFilters" hidden$="[[_showOnMobile]]"></paper-icon-button>
-            </div>
-          </app-toolbar>
-        </app-header>
+    <app-header-layout>
+      <app-header slot="header" condensed fixed>
+        <app-toolbar>
+          <div class="left-bar-item">
+            <paper-icon-button icon="icons:filter-list" on-tap="_toggleFilters" hidden$="[[detailsVisible]]"></paper-icon-button>
+            <paper-icon-button icon="icons:arrow-back" on-tap="navigateBack" hidden$="[[!detailsVisible]]"></paper-icon-button>
+          </div>
+          <div main-title>Winebook</div>
+        </app-toolbar>
+      </app-header>
 
+      <app-drawer-layout id="drawerLayout">
+        <app-drawer id="filter" slot="drawer" align="left" persistent opened>
+          <app-toolbar>Select a Region</app-toolbar>
+          <paper-listbox selected="0">
+            <paper-item on-tap="_setFilter" data-filter$="" class="reset" selected>Show All</paper-item>
+            <dom-repeat items="[[regions]]">
+              <template>
+                <paper-item on-tap="_setFilter" data-filter$="[[item.name]]">[[item.name]]</paper-item>
+              </template>  
+            </dom-repeat>
+          </paper-listbox>
+        </app-drawer>
+      
         <iron-pages selected="[[routeData.page]]" attr-for-selected="name">
           <wine-card name="card" wines="[[data]]" region="[[region]]"></wine-card>
           <wine-list name="" wines="[[data]]" region="[[region]]"></wine-list>
           <wine-detail name="detail" wine="[[_getWineByKey(subRouteData.index)]]"></wine-detail>
           <wine-entry name="entry"></wine-entry>
         </iron-pages>
-      </app-header-layout>
-    </app-drawer-layout>
+      </app-drawer-layout>
+    </app-header-layout>
   </template>
 
   <script>
     // Gesture events like tap and track generated from touch will not be
     // preventable, allowing for better scrolling performance.
     Polymer.setPassiveTouchGestures(true);
-
+    
     class WineBook extends Polymer.Element {
       static get is() { return 'wine-book'; }
 
@@ -171,7 +170,11 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       }
 
       _toggleFilters() {
-        this.$.filter.toggle();
+        if (this.$.drawerLayout.forceNarrow || !this.$.drawerLayout.narrow) {
+           this.$.drawerLayout.forceNarrow = !this.$.drawerLayout.forceNarrow;
+        } else {
+           this.$.drawerLayout.drawer.toggle();
+        }
       }
       
       navigateBack() {
