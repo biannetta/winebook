@@ -60,18 +60,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         font-size: 24px;
         text-shadow:#7F7B75 0 1px 5px;
       }
-
-     .avatar-container {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-      }
-
-      .avatar {
-        border-radius: 50%;
-        height: 200px;
-        width: 200px;
-      }
     </style>
 
     <firebase-app
@@ -108,23 +96,15 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                active="{{detailsVisible}}"></app-route>
 
     <app-drawer-layout fullbleed>
-      <app-drawer id="drawer" slot="drawer" swipe-open>
-        <app-toolbar>Menu</app-toolbar>
-        <paper-listbox>
-          <paper-item on-tap="login" hidden$="[[user]]">Login</paper-item>
-          <paper-item on-tap="logout" hidden$="[[!user]]">Logout</paper-item>
-        </paper-listbox>
-      </app-drawer>
-
-      <app-drawer id="filter" slot="drawer" align="right" swipe-open>
+      <app-drawer id="filter" slot="drawer" align="right" persistent swipe-open>
         <app-toolbar>Select a Region</app-toolbar>
-        <paper-listbox>
+        <paper-listbox selected="5">
           <dom-repeat items="[[regions]]">
             <template>
               <paper-item on-tap="_setFilter" data-filter$="[[item.name]]">[[item.name]]</paper-item>
             </template>  
           </dom-repeat>
-          <paper-item on-tap="_setFilter" data-filter$="" class="reset">Show All</paper-item>
+          <paper-item on-tap="_setFilter" data-filter$="" class="reset" selected>Show All</paper-item>
         </paper-listbox>
       </app-drawer>
       
@@ -132,19 +112,18 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         <app-header slot="header" condenses fixed>
           <app-toolbar>
             <div class="left-bar-item">
-              <paper-icon-button icon="icons:menu" on-tap="_toggleMenu" hidden></paper-icon-button>
               <paper-icon-button icon="icons:arrow-back" on-tap="navigateBack" hidden$="[[!detailsVisible]]"></paper-icon-button>
             </div>
             <div main-title>Winebook</div>
             <div class="right-bar-item">
-              <paper-icon-button icon="icons:filter-list" on-tap="_toggleFilters" hidden$="[[detailsVisible]]"></paper-icon-button>
+              <paper-icon-button icon="icons:filter-list" on-tap="_toggleFilters" hidden$="[[_showOnMobile]]"></paper-icon-button>
             </div>
           </app-toolbar>
         </app-header>
 
         <iron-pages selected="[[routeData.page]]" attr-for-selected="name">
           <wine-card name="card" wines="[[data]]" region="[[region]]"></wine-card>
-          <wine-list name="" wines="[[data]]"></wine-list>
+          <wine-list name="" wines="[[data]]" region="[[region]]"></wine-list>
           <wine-detail name="detail" wine="[[_getWineByKey(subRouteData.index)]]"></wine-detail>
           <wine-entry name="entry"></wine-entry>
         </iron-pages>
@@ -198,7 +177,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       navigateBack() {
         window.history.back();
       }
-
+      _showOnMobile() {
+        return this.routeData.page == 'card';
+      }
       _getWineByKey(key) {
         return this.data.find( wine => wine.$key == key);
       }
@@ -207,8 +188,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       }
       _setFilter(e) {
         let filter = e.target.dataset.filter;
-        this.region = filter;
-        this._toggleFilters();
+        this.region = filter == '' ? undefined : filter;
+        if (this.routeData.page == 'card') {
+          this._toggleFilters();
+        }
       }
     }
     window.customElements.define(WineBook.is, WineBook);
