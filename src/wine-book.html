@@ -107,8 +107,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         </app-toolbar>
       </app-header>
 
-      <app-drawer-layout id="drawerLayout">
-        <app-drawer id="filter" slot="drawer" align="left" persistent opened>
+      <app-drawer-layout id="drawerLayout" narrow>
+        <app-drawer id="filter" slot="drawer" align="left">
           <app-toolbar>Select a Region</app-toolbar>
           <paper-listbox selected="0">
             <paper-item on-tap="_setFilter" data-filter$="" class="reset" selected>Show All</paper-item>
@@ -188,6 +188,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       }
       _hideDrawerButton(_user,_detailsActive) {
         return true || !_user || _detailsActive;
+      }
+      _showFilterToggle() {
+        return this.routeData.page == '';
       }
       _setFilter(e) {
         let filter = e.target.dataset.filter;

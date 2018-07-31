@@ -1,0 +1,39 @@
+<link rel="import" href="../bower_components/polymer/polymer-element.html">
+<link rel="import" href="../bower_components/paper-input/paper-input.html">
+<link rel="import" href="../bower_components/paper-button/paper-button.html">
+<link rel="import" href="../bower_components/polymerfire/firebase-auth.html">
+
+<dom-module id="wine-login">
+    <template>
+        <style>
+        </style>
+        
+        <firebase-auth id="auth" user="{{user}}" provider="google"></firebase-auth>
+
+        <div class="entry-form">
+            <paper-button on-tap="login">Sign In</paper-button>            
+        </div>
+    </template>
+    <script>
+        class WineLogin extends Polymer.Element {
+            static get is() { return 'wine-login'; }
+
+            static get properties() {
+                return {
+                    user: Object
+                }
+            }
+
+            login() {
+                this.$.auth.signInWithPopup()
+                .then(function(response){
+                console.log(response);
+                }).catch(function(error) {
+                console.log(error)
+                });
+            }
+        }
+
+        window.customElements.define(WineLogin.is,WineLogin);
+    </script>
+</dom-module>
