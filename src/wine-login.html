@@ -6,11 +6,27 @@
 <dom-module id="wine-login">
     <template>
         <style>
+            .entry-form {
+                align-items: center;
+                background-color: var(--app-light-color);
+                display: flex;
+                flex-direction: column;
+                padding: 15px;
+            }
+            paper-button {
+                background-color: var(--app-secondary-color);
+                color: whitesmoke;
+            }
+            paper-input {
+                width: 300px;
+            }
         </style>
         
-        <firebase-auth id="auth" user="{{user}}" provider="google"></firebase-auth>
+        <firebase-auth id="auth" user="{{user}}"></firebase-auth>
 
         <div class="entry-form">
+            <paper-input id="username" type="email" label="Username" value="{{username}}"></paper-input>
+            <paper-input id="password" type="password" label="Password" value="{{password}}"></paper-input>
             <paper-button on-tap="login">Sign In</paper-button>            
         </div>
     </template>
@@ -20,17 +36,16 @@
 
             static get properties() {
                 return {
-                    user: Object
+                    user: Object,
+                    username: String,
+                    password: String
                 }
             }
 
             login() {
-                this.$.auth.signInWithPopup()
-                .then(function(response){
-                console.log(response);
-                }).catch(function(error) {
-                console.log(error)
-                });
+                this.$.auth.signInWithEmailAndPassword(this.username,this.password)
+                    .then(function(response) {console.log(response);})
+                    .catch(function(error){console.log(error);});
             }
         }
 

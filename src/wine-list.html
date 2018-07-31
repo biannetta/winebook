@@ -42,21 +42,11 @@
         </firebase-query>
 
         <vaadin-grid id="wine-grid" items="[[wines]]">
-            <!--<vaadin-grid-column width="60px" flex-grow="0">
-                <template>
-                    <a href="#/detail/[[item.$key]]"><paper-icon-button class="wine-icon" icon="icons:info-outline"></paper-icon-button></a>
-                </template>
-            </vaadin-grid-column>
             <vaadin-grid-column hidden$="[[!user]]" width="60px" flex-grow="0">
                 <template>
                     <paper-icon-button class="wine-icon" icon="icons:delete" on-tap="deleteItem"></paper-icon-button>
                 </template>
             </vaadin-grid-column>
-            <vaadin-grid-column hidden$="[[!user]]" width="60px" flex-grow="0">
-                <template>
-                    <paper-icon-button class="wine-icon" icon="icons:create" on-tap="editRecord"></paper-icon-button>
-                </template>
-            </vaadin-grid-column>-->
             <vaadin-grid-column width="200px" flex-grow="0">
                 <template class="header">
                     <vaadin-grid-sorter path="rating">Rating</vaadin-grid-sorter>

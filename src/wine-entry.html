@@ -6,8 +6,6 @@
 <link rel="import" href="../bower_components/polymerfire/firebase-auth.html">
 <link rel="import" href="../bower_components/polymerfire/firebase-query.html">
 
-<link rel="import" href="wine-login.html">
-
 <dom-module id="wine-entry">
     <template>
         <style>
@@ -16,22 +14,13 @@
                 margin: 10px;
                 padding: 10px;
             }
-            .splash {
-                align-items: center;
-                background-color: var(--app-primary-color);
-                color: white;
-                display: flex;
-                font-weight: 300;
-                font-size: 18px;
-                height: 100%;
-                justify-content: center;
-                position: absolute;
-                width: 100%;
-                z-index: 4000;
+            paper-button {
+                background-color: var(--app-secondary-color);
+                color: whitesmoke;
             }
         </style>
         
-        <firebase-auth id="auth" user="{{user}}" provider="google"></firebase-auth>
+        <firebase-auth id="auth" user="{{user}}"></firebase-auth>
         
         <firebase-query
             id="wines"
@@ -39,10 +28,7 @@
             data={{data}}>
         </firebase-query>
 
-        <div id="signin" class="splash login-form">
-           <wine-login></wine-login> 
-        </div>
-        <div class="data-form">
+       <div class="data-form">
             <paper-input id="name" label="Name" value="{{wine.name}}"></paper-input>    
             <paper-input id="type" label="Type" value="{{wine.type}}"></paper-input>    
             <paper-input id="region" label="Region" value="{{wine.region}}"></paper-input>
@@ -50,7 +36,10 @@
             <paper-input id="rating" type="number" label="Rating" value="{{wine.rating}}"></paper-input>
             <l2t-paper-rating id="rating" rating="[[wine.rating]]" readonly></l2t-paper-rating>
             <paper-input id="lcbono" type="number" label="LCBO No." value="{{wine.lcbono}}"></paper-input>
-            <paper-button on-tap="saveData">Save</paper-button>
+            <div class="action-buttons">
+                <paper-button on-tap="saveData">Save</paper-button>
+                <paper-button on-tap="logout">Logout</paper-button>
+            </div>
        </div>
     </template>
     <script>
@@ -69,8 +58,8 @@
                                 type: "",
                                 region: "",
                                 notes: "",
-                                rating: 0,
-                                lcbono: 0 
+                                rating: undefined,
+                                lcbono: undefined 
                             };
                         }
                     }
@@ -92,6 +81,12 @@
                 catch(exception) {
                     console.log(exception);
                 }
+            }
+
+            logout() {
+                this.$.auth.signOut()
+                    .then(function(response){console.log(response);})
+                    .catch(function(error){console.log(response);});
             }
        }
 

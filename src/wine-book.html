@@ -38,6 +38,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <link rel="import" href="wine-entry.html">
 <link rel="import" href="wine-detail.html">
 <link rel="import" href="wine-card.html">
+<link rel="import" href="wine-login.html">
 
 <dom-module id="wine-book">
   <template>
@@ -46,6 +47,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         --app-primary-color: #993D60;
         --app-secondary-color: #7C334F;
         --rating-icon-color: #DAA520;
+        --app-light-color: #d3afbd;
         display: block;
         --paper-icon-button-disabled-text: #d3afbd;
       }
@@ -54,13 +56,32 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         color: #fff;
         background-color: var(--app-primary-color);
       }
-
+      
       [main-title] {
         color: whitesmoke;
         font-family: 'Lobster', cursive;
         font-size: 24px;
         text-shadow:#7F7B75 0 1px 5px;
       }
+
+      .splash {
+          align-items: center;
+          background-color: var(--app-primary-color);
+          color: white;
+          display: flex;
+          font-weight: 300;
+          font-size: 18px;
+          height: 100%;
+          justify-content: center;
+          position: absolute;
+          width: 100%;
+          z-index: 4000;
+      }
+
+      .splash[hidden] {
+        display: none;
+      }
+
     </style>
 
     <firebase-app
@@ -84,9 +105,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         id="regions"
         path="/regions"
         data={{regions}}>
-    </firebase-query
+    </firebase-query>
     
-    ><app-location route="{{route}}" use-hash-as-path></app-location>
+    <app-location route="{{route}}" use-hash-as-path></app-location>
     <app-route route="{{route}}"
                pattern="/:page"
                data="{{routeData}}" 
@@ -107,7 +128,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         </app-toolbar>
       </app-header>
 
-      <app-drawer-layout id="drawerLayout" narrow>
+      <app-drawer-layout id="drawerLayout" force-narrow>
         <app-drawer id="filter" slot="drawer" align="left">
           <app-toolbar>Select a Region</app-toolbar>
           <paper-listbox selected="0">
@@ -124,7 +145,12 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           <wine-card name="card" wines="[[data]]" region="[[region]]"></wine-card>
           <wine-list name="" wines="[[data]]" region="[[region]]"></wine-list>
           <wine-detail name="detail" wine="[[_getWineByKey(subRouteData.index)]]"></wine-detail>
-          <wine-entry name="entry"></wine-entry>
+          <div name="entry">
+            <div id="signin" class="splash login-form" hidden$="[[user]]">
+              <wine-login></wine-login> 
+            </div>
+            <wine-entry></wine-entry>
+          </div>
         </iron-pages>
       </app-drawer-layout>
     </app-header-layout>
@@ -151,24 +177,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           regions: Object
         };
       }
-      
-     login() {
-        this.$.auth.signInWithPopup()
-        .then(function(response){
-          console.log(response);
-        }).catch(function(error) {
-          console.log(error)
-        });
-      }
-      
-      logout() {
-        this.$.auth.signOut();
-      }
-
-      _toggleMenu() {
-        this.$.drawer.toggle();
-      }
-
       _toggleFilters() {
         if (this.$.drawerLayout.forceNarrow || !this.$.drawerLayout.narrow) {
            this.$.drawerLayout.forceNarrow = !this.$.drawerLayout.forceNarrow;
@@ -176,7 +184,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
            this.$.drawerLayout.drawer.toggle();
         }
       }
-      
       navigateBack() {
         window.history.back();
       }
