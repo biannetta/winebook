@@ -12,7 +12,7 @@ script:
   - bower install
   - polymer build
 after_success:
-  - firebase deploy --token 1/uFN2lGrcDLyZO8qLqUYdcGxAxQYyGVfI_my6eLWrRk_rn8Gz20QUkotIbfXCCda2 --non-interacitve
+  - firebase deploy --token 1/uFN2lGrcDLyZO8qLqUYdcGxAxQYyGVfI_my6eLWrRk_rn8Gz20QUkotIbfXCCda2
 notifications:
   email:
     on_failure: change
